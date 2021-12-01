@@ -21,6 +21,7 @@ exports.agregarUsuario = async(req,res) =>{
             password,rutEmpresa, razonSocial, giroEmpresa, casaMatriz,
             numeroCasaMatriz, correoEmpresa, telefonoEmpresa } = req.body;
             const dv_empresa = rutEmpresa.charAt(rutEmpresa.length-1);
+            
             const dv_rep= runRepLegal.charAt(runRepLegal.length-1);
 
             comuna = parseInt(comuna);
