@@ -1,5 +1,6 @@
 //Rutas para crear Usuarios
 
+const { Router } = require('express');
 const express = require('express');
 const router = express.Router();
 
@@ -20,6 +21,10 @@ const authMiddle = require('../middlewares/authMiddle');
 //Agregar Cliente cara faxera faxerita
 router.post('/',
     funcionarioController.agregarFuncionario
+);
+
+router.post('/obtenerFuncionario',
+    funcionarioController.obtenerFuncionario
 );
 
 

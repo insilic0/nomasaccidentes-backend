@@ -22,6 +22,9 @@ router.post('/',
     clienteController.agregarUsuario
 );
 
+router.post('/obtenerCliente',
+    clienteController.obtenerCliente
+);
 
 
 module.exports = router;

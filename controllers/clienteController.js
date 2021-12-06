@@ -69,6 +69,60 @@ exports.agregarUsuario = async(req,res) =>{
 
 }
 
+exports.obtenerCliente = async (req, res) =>{
+
+    console.log(req.body);
+
+    try {
+        connection = await oracledb.getConnection({
+            user: process.env.USER,
+            password: process.env.PASSWORD,
+            connectString: "localhost:1521/xe"
+        });
+
+        const run = req.body.run;
+       
+
+        let query = `CALL SP_OBTENER_REP_LEGAL(:run_rep_legal, :primer_nombre, :apellido_paterno, :correo_electronico, :telefono_celular, :rut_empresa, :nombre_empresa, :giro_empresa, :id_rep_legal)`;
+
+        let params = {
+            run_rep_legal: {val: `${run}`, dir: oracledb.BIND_IN, type: oracledb.STRING},
+            primer_nombre: {dir: oracledb.BIND_OUT, type: oracledb.STRING},
+            apellido_paterno:{dir: oracledb.BIND_OUT, type: oracledb.STRING},
+            correo_electronico:{dir: oracledb.BIND_OUT, type: oracledb.STRING},
+            telefono_celular: {dir: oracledb.BIND_OUT, type: oracledb.NUMBER},
+            rut_empresa:{dir: oracledb.BIND_OUT, type: oracledb.STRING},
+            nombre_empresa:{dir: oracledb.BIND_OUT, type: oracledb.STRING},
+            giro_empresa:{dir: oracledb.BIND_OUT, type: oracledb.STRING},
+            id_rep_legal:{dir: oracledb.BIND_OUT, type: oracledb.STRING}
+        }
+        var result = await connection.execute(query, params);
+
+        if( result.outBinds.primer_nombre === null){
+            return res.status(404).json({
+                msg:'Rut no encontrado'
+            });
+        }
+
+        res.json({
+            rep_legal: result.outBinds
+        });
+    } catch (error) {
+        console.log(error);
+    }
+
+    finally{
+        if(result){
+            try {
+                await connection.close();
+                console.log('closed cliente controller');
+            } catch (error) {  
+                console.log(error.message);
+            }
+        }
+    }
+}
+
 // exports.verUsuarios = async(req, res) =>{
 
    

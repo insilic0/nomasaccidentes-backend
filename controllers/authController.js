@@ -20,7 +20,7 @@ exports.autenticarUsuario = async (req, res) =>{
     const{email , password} = req.body;
 
     try {
-        //Revisar con el email y esté registrado
+        
         connection = await oracledb.getConnection({
             user: process.env.USER,
             password: process.env.PASSWORD,

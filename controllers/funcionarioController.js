@@ -1,4 +1,3 @@
-const { parse } = require('dotenv');
 const oracledb = require('oracledb');
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 
@@ -54,4 +53,43 @@ exports.agregarFuncionario = async (req, res) =>{
         }
     }
 
+}
+
+exports.obtenerFuncionario = async(req, res) =>{
+    const {run_funcionario} = req.body;
+    console.log(run_funcionario)
+    try {
+        connection = await oracledb.getConnection({
+            user: process.env.USER,
+            password: process.env.PASSWORD,
+            connectString:"localhost:1521/xe"
+        });
+
+        let params = {
+            run_funcionario_in: {val: `${run_funcionario}`, dir: oracledb.BIND_IN, type: oracledb.STRING},
+            primer_nombre: {dir: oracledb.BIND_OUT, type: oracledb.STRING},
+            apellido_paterno:{dir: oracledb.BIND_OUT, type: oracledb.STRING},
+            correo_electronico:{dir: oracledb.BIND_OUT, type: oracledb.STRING},
+            run_funcionario_out:{dir: oracledb.BIND_OUT, type: oracledb.STRING},
+            id_funcionario:{dir: oracledb.BIND_OUT, type: oracledb.STRING}
+        }
+
+        let query =`CALL SP_OBTENER_FUNCIONARIO(:run_funcionario_in, :primer_nombre, :apellido_paterno, :correo_electronico, :run_funcionario_out, :id_funcionario)`;
+
+        var result = await connection.execute(query, params);
+
+        if( result.outBinds.correo_electronico === null){
+            return res.status(400).json({
+                msg:'No se encontró al funcionario con ese RUN'
+            });
+        }
+
+        res.status(200).json({
+            ok:true,
+            funcionario: result.outBinds
+        })
+
+    } catch (error) {
+        console.log(error);
+    }
 }
