@@ -2,9 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-
-const funcionarioController = require('../controllers/funcionarioController');
-const authMiddle = require('../middlewares/authMiddle');
+const contratoController = require('../controllers/contratoController');
 
 //Crear un usuario
 // /api/auth
@@ -17,15 +15,9 @@ const authMiddle = require('../middlewares/authMiddle');
 //     authController.usuarioAutenticado
 // );
 
-//Agregar Cliente cara faxera faxerita
+//Agregar Contrato
 router.post('/',
-    funcionarioController.agregarFuncionario
+    contratoController.agregarContrato
 );
-
-router.post('/obtenerFuncionario',
-    funcionarioController.obtenerFuncionario
-);
-
-
 
 module.exports = router;

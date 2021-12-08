@@ -21,6 +21,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/cliente', require('./routes/cliente'));
 app.use('/api/comunas', require('./routes/comuna'));
 app.use('/api/funcionario', require('./routes/funcionario'));
+app.use('/api/contrato', require('./routes/contrato'));
 
 app.listen(PORT, () =>{
     console.log(`Corriendo en puerto ${PORT}`);

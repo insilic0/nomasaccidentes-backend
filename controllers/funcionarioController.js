@@ -56,8 +56,9 @@ exports.agregarFuncionario = async (req, res) =>{
 }
 
 exports.obtenerFuncionario = async(req, res) =>{
+    
     const {run_funcionario} = req.body;
-    console.log(run_funcionario)
+    console.log(run_funcionario);
     try {
         connection = await oracledb.getConnection({
             user: process.env.USER,
