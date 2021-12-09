@@ -1,3 +1,4 @@
+const moment = require('moment');
 const oracledb = require('oracledb');
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 
@@ -14,6 +15,7 @@ exports.agregarContrato = async (req, res) =>{
             motivo_servicio, monto_servicio, desc_servicio
         } = req.body;
 
+        fecha_fin_contrato = moment(fecha_fin_contrato).format('DD/MM/YYYY');
 
         let params = {
             fecha_fin_contrato: {val: fecha_fin_contrato, dir: oracledb.BIND_IN, type: oracledb.STRING},
@@ -24,6 +26,7 @@ exports.agregarContrato = async (req, res) =>{
             desc_servicio: {val: desc_servicio, dir: oracledb.BIND_IN, type: oracledb.STRING}
         };
 
+        console.log(req.body);
         let query = `CALL SP_AGREGAR_CONTRATO(:fecha_fin_contrato, :id_rep_legal, :id_funcionario, :motivo_servicio, :monto_servicio, :desc_servicio)`;
         var result = await connection.execute(query, params);
 

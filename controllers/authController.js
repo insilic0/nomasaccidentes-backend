@@ -92,14 +92,17 @@ exports.usuarioAutenticado = async(req, res)=>{
             connectString:"localhost:1521/xe"
         });
         let params = {
-            id: {val: req.usuario.id_out, dir: oracledb.BIND_IN, type: oracledb.NUMBER},
+            id: {val: req.usuario.id_out, dir: oracledb.BIND_INOUT, type: oracledb.NUMBER},
             nombre_out:{dir: oracledb.BIND_OUT, type: oracledb.STRING},
             apellido_out: {dir: oracledb.BIND_OUT, type: oracledb.STRING},
             correo_out: {dir: oracledb.BIND_OUT, type: oracledb.STRING},
-            cargo_out:{dir: oracledb.BIND_OUT, type: oracledb.NUMBER}
+            cargo_out:{dir: oracledb.BIND_OUT, type: oracledb.NUMBER},
+            id_contrato: {dir: oracledb.BIND_OUT, type: oracledb.NUMBER},
+            id_servicio: {dir: oracledb.BIND_OUT, type: oracledb.NUMBER}
+            
             
         }
-        let query = `CALL SP_OBTENER_USUARIO_AUTENTICADO(:id, :nombre_out, :apellido_out, :correo_out, :cargo_out)`;
+        let query = `CALL SP_OBTENER_USUARIO_AUTENTICADO(:id, :nombre_out, :apellido_out, :correo_out, :cargo_out, :id_contrato, :id_servicio)`;
         var result = await connection.execute(query, params);
         res.status(200).json({
             ok:true,

@@ -17,8 +17,6 @@ exports.agregarFuncionario = async (req, res) =>{
         const dv_funcionario = runFuncionario.charAt(runFuncionario.length-1);
         const cargo2 = parseInt(cargo);
 
-        console.log(req.body);
-
         let params = {
             run_funcionario: {val: runFuncionario, dir: oracledb.BIND_IN, type: oracledb.STRING},
             dv_funcionario: {val: dv_funcionario, dir: oracledb.BIND_IN, type: oracledb.STRING},
